@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cliente API Flashcards</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        input, button { padding: 8px; margin: 5px 0; width: 100%; }
+        .box { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 8px; max-width: 500px; }
+        .deck, .card { background: #f3f3f3; padding: 10px; margin: 8px 0; border-radius: 7px; }
+        img { max-width: 150px; border-radius: 5px; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+<h1>Cliente Web — API Flashcards</h1>
+
+<!-- LOGIN -->
+<div class="box">
+    <h2>Login</h2>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Iniciar sesión</button>
+    <pre id="loginResult"></pre>
+</div>
+
+<!-- LISTAR DECKS -->
+<div class="box">
+    <h2>Decks</h2>
+    <input type="number" id="deckUserId" placeholder="ID del usuario">
+    <button onclick="getDecks()">Obtener Decks</button>
+    <div id="deckList"></div>
+</div>
+
+<!-- CREAR CATEGORÍA -->
+<div class="box">
+    <h2>Crear Categoría</h2>
+    <input type="number" id="newCatUserId" placeholder="ID Usuario">
+    <input type="text" id="catNombre" placeholder="Nombre">
+    <input type="text" id="catDescripcion" placeholder="Descripción">
+    <button onclick="createCategoria()">Crear Categoría</button>
+    <p id="catResult"></p>
+</div>
+
+<!-- CREAR TARJETA -->
+<div class="box">
+    <h2>Crear Tarjeta</h2>
+    <input type="number" id="cardUserId" placeholder="ID Usuario">
+    <input type="number" id="cardDeckId" placeholder="ID Categoría (Deck)">
+    <input type="text" id="cardConcepto" placeholder="Concepto">
+    <input type="text" id="cardDefinicion" placeholder="Definición">
+    <input type="text" id="cardDefinicionExtra" placeholder="Definición extra (opcional)">
+    <input type="text" id="cardImagen" placeholder="URL imagen (opcional)">
+    <button onclick="createCard()">Crear Tarjeta</button>
+    <p id="cardResult"></p>
+</div>
+
+<script>
+const API = "http://127.0.0.1:8000";
+
+// ---------- LOGIN ----------
+async function login() {
+    const email = email.value;
+    const password = password.value;
+
+    const res = await fetch(`${API}/login/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+    loginResult.textContent = JSON.stringify(data, null, 2);
+}
+
+// ---------- LISTAR DECKS + TARJETAS ----------
+async function getDecks() {
+    const userId = deckUserId.value;
+    if (!userId) return alert("Ingresa el ID del usuario");
+
+    const res = await fetch(`${API}/decks/user/${userId}`);
+    const decks = await res.json();
+
+    deckList.innerHTML = "";
+
+    if (!decks.length) {
+        deckList.innerHTML = "<em>No hay decks</em>";
+        return;
+    }
+
+    decks.forEach(deck => {
+        const div = document.createElement("div");
+        div.className = "deck";
+
+        div.innerHTML = `
+            <strong>${deck.nombre}</strong><br>
+            ${deck.descripcion}<br>
+            ${deck.imagen ? `<img src="${API}${deck.imagen}">` : ""}
+            <h4>Tarjetas</h4>
+            <div class="cards-container">Cargando...</div>
+        `;
+
+        deckList.appendChild(div);
+        loadCards(deck.id, userId, div.querySelector(".cards-container"));
+    });
+}
+
+async function loadCards(deckId, userId, container) {
+    const res = await fetch(`${API}/cards/deck/${deckId}/${userId}`);
+    const cards = await res.json();
+
+    container.innerHTML = "";
+
+    if (!cards.length) {
+        container.innerHTML = "<em>No hay tarjetas</em>";
+        return;
+    }
+
+    cards.forEach(card => {
+        const div = document.createElement("div");
+        div.className = "card";
+        div.innerHTML = `
+            <strong>${card.concepto}</strong><br>
+            ${card.definicion}
+            ${card.imagen ? `<img src="${API}${card.imagen}">` : ""}
+        `;
+        container.appendChild(div);
+    });
+}
+
+// ---------- CREAR CATEGORÍA ----------
+async function createCategoria() {
+    const userId = newCatUserId.value;
+    const nombre = catNombre.value;
+    const descripcion = catDescripcion.value;
+
+    if (!userId || !nombre || !descripcion)
+        return alert("Completa todos los campos");
+
+    const res = await fetch(`${API}/decks/${userId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre, descripcion })
+    });
+
+    const data = await res.json();
+    catResult.textContent = res.ok ? "Categoría creada" : JSON.stringify(data);
+
+    if (res.ok) getDecks();
+}
+
+// ---------- CREAR TARJETA ----------
+async function createCard() {
+    const userId = cardUserId.value;
+    const deckId = cardDeckId.value;
+    const concepto = cardConcepto.value;
+    const definicion = cardDefinicion.value;
+
+    if (!userId || !deckId || !concepto || !definicion)
+        return alert("Completa todos los campos");
+
+    const res = await fetch(`${API}/cards/${deckId}/${userId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            concepto,
+            definicion,
+            definicionExtra: cardDefinicionExtra.value || "",
+            imagen: cardImagen.value || "",
+            userId: Number(userId),
+            idCategoria: Number(deckId)
+        })
+    });
+
+    const data = await res.json();
+    cardResult.textContent = res.ok ? "Tarjeta creada" : JSON.stringify(data);
+
+    if (res.ok) getDecks();
+}
+</script>
+
+</body>
+</html>
