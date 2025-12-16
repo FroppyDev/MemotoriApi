@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app import dao, models, schemas, dao_tarjeta, dao_deck
 from app.database import SessionLocal, engine
-from app import verify
+from app.verify import verify_password
 from app.seed import seed_data
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
