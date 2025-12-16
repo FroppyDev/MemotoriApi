@@ -1,27 +1,31 @@
 # seed.py
 from sqlalchemy.orm import Session
 from app import models
-import os
 import shutil
+from pathlib import Path
 
-def copy_default_image(src_file: str, dest_folder: str) -> str:
+BASE_DIR = Path(__file__).resolve().parent
+IMAGES_DIR = BASE_DIR / "imagenes"
+DEFAULT_DIR = IMAGES_DIR / "default"
+DEFAULT_IMAGE = DEFAULT_DIR / "default.jpg"
+
+
+def copy_default_image(filename: str) -> str:
     """
-    Copia una imagen desde /default_assets hacia /uploads
-    Retorna la URL accesible.
+    Copia la imagen por defecto a app/imagenes/{filename}
+    y devuelve la ruta pública.
     """
+    IMAGES_DIR.mkdir(parents=True, exist_ok=True)
+    DEFAULT_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Asegurar carpeta destino
-    os.makedirs(dest_folder, exist_ok=True)
+    dest_path = IMAGES_DIR / filename
 
-    filename = os.path.basename(src_file)
-    dest_path = os.path.join(dest_folder, filename)
+    if not dest_path.exists():
+        shutil.copy(DEFAULT_IMAGE, dest_path)
 
-    # Copiar archivo
-    shutil.copy(src_file, dest_path)
+    # Esta ruta es la que usará FastAPI para servir la imagen
+    return f"/imagenes/{filename}"
 
-    # Crear URL pública
-    folder_name = dest_folder.replace("imagenes/", "")
-    return f"/imagenes/{folder_name}/{filename}"
 
 def seed_data(db: Session):
     existing_user = db.query(models.User).first()
@@ -45,10 +49,7 @@ def seed_data(db: Session):
         nombre="Básico",
         descripcion="Categoría inicial",
         userId=user.id,
-        imagen=copy_default_image(
-            "imagenes/default/default.jpg",
-            "imagenes/categorias"
-        )
+        imagen=copy_default_image("default_categoria.jpg")
     )
     db.add(categoria)
     db.commit()
@@ -60,10 +61,7 @@ def seed_data(db: Session):
         definicion="Un lenguaje de programación.",
         userId=user.id,
         idCategoria=categoria.id,
-        imagen=copy_default_image(
-            "imagenes/default/python.png",
-            "imagenes/tarjetas"
-        )
+        imagen=copy_default_image("python.jpg")
     )
 
     card2 = models.Tarjeta(
