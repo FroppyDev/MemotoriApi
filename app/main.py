@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-import dao, models, schemas, dao_tarjeta, dao_deck
-from database import SessionLocal, engine
+from app import dao, models, schemas, dao_tarjeta, dao_deck
+from app.database import SessionLocal, engine
 import verify
 from seed import seed_data
 from fastapi.staticfiles import StaticFiles

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-import models, schemas
+from app import models, schemas
 
 
 def get_deck(db: Session, userId:int, idCategoria: int):

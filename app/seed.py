@@ -1,6 +1,6 @@
 # seed.py
 from sqlalchemy.orm import Session
-import models
+from app import models
 import os
 import shutil
 

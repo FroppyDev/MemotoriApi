@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-import models, schemas
+from app import models, schemas
 
 
 def get_card(db: Session, categoryId: int, tarjeta_id: int):
