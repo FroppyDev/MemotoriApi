@@ -8,6 +8,7 @@ from app import dao, models, schemas, dao_tarjeta, dao_deck, verify
 from app.database import SessionLocal, engine
 from app.seed import seed_data
 
+
 # -------------------- APP --------------------
 
 app = FastAPI()
@@ -35,7 +36,12 @@ def get_database():
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://memotoriapi.onrender.com",
+        "http://localhost:5500",
+        "http://127.0.0.1:5500",
+        "*"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
