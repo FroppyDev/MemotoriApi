@@ -7,6 +7,8 @@ from pathlib import Path
 from app import dao, models, schemas, dao_tarjeta, dao_deck, verify
 from app.database import SessionLocal, engine
 from app.seed import seed_data
+from datetime import datetime
+
 
 
 # -------------------- APP --------------------
@@ -125,6 +127,32 @@ def delete_deck(userId: int, deck_id: int, db: Session = Depends(get_database)):
 @app.post("/cards/{idCategoria}/{userId}", response_model=schemas.Tarjeta)
 def create_card(tarjeta: schemas.TarjetaCreate, idCategoria: int, userId: int, db: Session = Depends(get_database)):
     return dao_tarjeta.create_card(db, tarjeta, idCategoria, userId)
+
+@app.get("/sync/cards/{userId}")
+def sync_cards(
+    userId: int,
+    since: datetime,
+    db: Session = Depends(get_database)
+):
+    return (
+        db.query(models.Tarjeta)
+        .filter(models.Tarjeta.userId == userId)
+        .filter(models.Tarjeta.updated_at > since)
+        .all()
+    )
+
+@app.get("/sync/decks/{userId}")
+def sync_decks(
+    userId: int,
+    since: datetime,
+    db: Session = Depends(get_database)
+):
+    return (
+        db.query(models.Categoria)
+        .filter(models.Categoria.userId == userId)
+        .filter(models.Categoria.updated_at > since)
+        .all()
+    )
 
 @app.get("/cards/{tarjeta_id}", response_model=schemas.Tarjeta)
 def get_card(tarjeta_id: int, db: Session = Depends(get_database)):
