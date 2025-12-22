@@ -23,6 +23,7 @@ class Categoria(Base):
     latitud = Column(Float, nullable=True)
     longitud = Column(Float, nullable=True)
     radioMetros = Column(Integer, nullable=True)
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
     tarjetas = relationship("Tarjeta", backref="categoria", cascade="all, delete")
 
 
@@ -35,6 +36,7 @@ class Tarjeta(Base):
     concepto = Column(String, nullable=True)
     definicion = Column(String, nullable=True)
     definicionExtra = Column(String, nullable=True)
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
     imagen = Column(String, nullable=True)
 
 class Horarios(Base):
@@ -45,6 +47,8 @@ class Horarios(Base):
     userId = Column(Integer, ForeignKey("users.id"))
     horaInicio = Column(String, nullable=False)
     horaFin = Column(String, nullable=False)
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+
 
 class Dias(Base):
     __tablename__ = "dias"
@@ -58,6 +62,7 @@ class CategoriaDias(Base):
     idCategoria = Column(Integer, ForeignKey("categoria.id", ondelete="CASCADE"), primary_key=True)
     userId = Column(Integer, ForeignKey("users.id"))
     idDia = Column(Integer, ForeignKey("dias.idDia", ondelete="CASCADE"), primary_key=True)
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
 class Imagenes(Base):
     __tablename__ = "imagenes"
@@ -67,6 +72,7 @@ class Imagenes(Base):
     userId = Column(Integer, ForeignKey("users.id"))
     imagen = Column(String, nullable=False)
     infoImagen = Column(String, nullable=True)
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
 class Fotos(Base):
     __tablename__ = "fotos"
@@ -78,3 +84,4 @@ class Fotos(Base):
     idCategoria = Column(Integer, ForeignKey("categoria.id", ondelete="CASCADE"))
     latitud = Column(Float, nullable=True)
     longitud = Column(Float, nullable=True)
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
