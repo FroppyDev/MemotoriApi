@@ -17,6 +17,6 @@ async def upload_image(file: UploadFile = File(...)):
     with open(filepath, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    file_url = f"/imagenes/{filename}"
+    file_url = f"https://memotoriapi.onrender.com/imagenes/{filename}"
 
     return {"file_url": file_url}
