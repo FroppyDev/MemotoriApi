@@ -24,7 +24,7 @@ def copy_default_image(filename: str) -> str:
         shutil.copy(DEFAULT_IMAGE, dest_path)
 
     # Esta ruta es la que usará FastAPI para servir la imagen
-    return f"/imagenes/{filename}"
+    return f"https://memotoriapi.onrender.com/imagenes/{filename}"
 
 
 def seed_data(db: Session):
