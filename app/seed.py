@@ -49,7 +49,7 @@ def seed_data(db: Session):
         nombre="Básico",
         descripcion="Categoría inicial",
         userId=user.id,
-        imagen=copy_default_image("default_categoria.jpg")
+        imagen=copy_default_image("gato.png")
     )
     db.add(categoria)
     db.commit()
