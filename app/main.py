@@ -8,7 +8,7 @@ from app import dao, models, schemas, dao_tarjeta, dao_deck, verify
 from app.database import SessionLocal, engine
 from app.seed import seed_data
 from datetime import datetime
-from uploads import router as upload_router
+from app.uploads import router as upload_router
 
 
 # -------------------- APP --------------------
