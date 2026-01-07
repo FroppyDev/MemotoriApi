@@ -16,13 +16,15 @@ from app.uploads import router as upload_router
 app = FastAPI()
 
 # -------------------- IMÁGENES --------------------
-app.include_router(upload_router)
 
 BASE_DIR = Path(__file__).resolve().parent
 IMAGES_DIR = BASE_DIR / "imagenes"
 IMAGES_DIR.mkdir(exist_ok=True)
 
 app.mount("/imagenes", StaticFiles(directory=IMAGES_DIR), name="imagenes")
+
+app.include_router(upload_router)
+
 
 # -------------------- DB --------------------
 
