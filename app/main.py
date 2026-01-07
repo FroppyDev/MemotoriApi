@@ -8,7 +8,7 @@ from app import dao, models, schemas, dao_tarjeta, dao_deck, verify
 from app.database import SessionLocal, engine
 from app.seed import seed_data
 from datetime import datetime
-
+from uploads import router as upload_router
 
 
 # -------------------- APP --------------------
@@ -16,6 +16,7 @@ from datetime import datetime
 app = FastAPI()
 
 # -------------------- IMÁGENES --------------------
+app.include_router(upload_router)
 
 BASE_DIR = Path(__file__).resolve().parent
 IMAGES_DIR = BASE_DIR / "imagenes"
