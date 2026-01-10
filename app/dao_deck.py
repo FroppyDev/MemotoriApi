@@ -48,7 +48,7 @@ def update_deck(db: Session, idCategoria: int, deck_update: schemas.ActualizarCa
 
 
 def delete_deck(db: Session, userId:int, idCategoria: int):
-    db_deck = get_deck(db, userId, idCategoria)
+    db_deck = get_deck(db, idCategoria)
     if not db_deck:
         return None
 
