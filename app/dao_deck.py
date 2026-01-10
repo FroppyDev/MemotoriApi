@@ -2,8 +2,8 @@ from sqlalchemy.orm import Session
 from app import models, schemas
 
 
-def get_deck(db: Session, userId:int, idCategoria: int):
-    return db.query(models.Categoria).filter(models.Categoria.id == idCategoria).filter(models.Categoria.userId == userId).first()
+def get_deck(db: Session, idCategoria: int):
+    return db.query(models.Categoria).filter(models.Categoria.id == idCategoria).first()
 
 
 def get_decks_by_user(db: Session, userId: int):
