@@ -2,8 +2,8 @@ from sqlalchemy.orm import Session
 from app import models, schemas
 
 
-def get_card(db: Session, categoryId: int, tarjeta_id: int):
-    return db.query(models.Tarjeta).filter(models.Tarjeta.id == tarjeta_id).filter(models.Tarjeta.idCategoria == categoryId).first()
+def get_card(db: Session, tarjeta_id: int):
+    return db.query(models.Tarjeta).filter(models.Tarjeta.id == tarjeta_id).first()
 
 
 def get_cards_by_deck(db: Session, idCategoria: int, userId: int):
@@ -40,7 +40,7 @@ def update_card(db: Session, tarjeta_id: int, tarjeta_update: schemas.TarjetaUpd
 
 
 def delete_card(db: Session, categoryId:int, tarjeta_id: int):
-    db_card = get_card(db, categoryId, tarjeta_id)
+    db_card = get_card(db, tarjeta_id)
     if not db_card:
         return None
 
