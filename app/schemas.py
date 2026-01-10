@@ -56,7 +56,7 @@ class TarjetaBase(BaseModel):
     concepto: Optional[str]
     definicion: Optional[str]
     definicionExtra: Optional[str]
-    imagen: Optional[str]
+    imagen: Optional[str] = None
 
 class TarjetaCreate(TarjetaBase):
     pass
