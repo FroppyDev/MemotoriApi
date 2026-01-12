@@ -52,6 +52,10 @@ def seed_data(db: Session):
         imagen=copy_default_image("gato.png")
     )
 
+    db.add(categoria_prog)
+    db.commit()
+    db.refresh(categoria_prog)
+
     # Tarjetas
     cards_prog = [
     models.Tarjeta(
