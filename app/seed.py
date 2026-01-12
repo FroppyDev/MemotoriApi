@@ -145,70 +145,70 @@ def seed_data(db: Session):
             definicion="Manzana",
             userId=user.id,
             idCategoria=categoria_ingles.id,
-            ejemplo="I eat an apple every day."
+            definicionExtra="I eat an apple every day."
         ),
         models.Tarjeta(
             concepto="Book",
             definicion="Libro",
             userId=user.id,
             idCategoria=categoria_ingles.id,
-            ejemplo="She is reading a book."
+            definicionExtra="She is reading a book."
         ),
         models.Tarjeta(
             concepto="House",
             definicion="Casa",
             userId=user.id,
             idCategoria=categoria_ingles.id,
-            ejemplo="My house is very small."
+            definicionExtra="My house is very small."
         ),
         models.Tarjeta(
             concepto="Car",
             definicion="Auto",
             userId=user.id,
             idCategoria=categoria_ingles.id,
-            ejemplo="He drives a car."
+            definicionExtra="He drives a car."
         ),
         models.Tarjeta(
             concepto="Dog",
             definicion="Perro",
             userId=user.id,
             idCategoria=categoria_ingles.id,
-            ejemplo="The dog is friendly."
+            definicionExtra="The dog is friendly."
         ),
         models.Tarjeta(
             concepto="Water",
             definicion="Agua",
             userId=user.id,
             idCategoria=categoria_ingles.id,
-            ejemplo="I drink water."
+            definicionExtra="I drink water."
         ),
         models.Tarjeta(
             concepto="Food",
             definicion="Comida",
             userId=user.id,
             idCategoria=categoria_ingles.id,
-            ejemplo="This food is delicious."
+            definicionExtra="This food is delicious."
         ),
         models.Tarjeta(
             concepto="Friend",
             definicion="Amigo",
             userId=user.id,
             idCategoria=categoria_ingles.id,
-            ejemplo="He is my best friend."
+            definicionExtra="He is my best friend."
         ),
         models.Tarjeta(
             concepto="School",
             definicion="Escuela",
             userId=user.id,
             idCategoria=categoria_ingles.id,
-            ejemplo="I go to school every day."
+            definicionExtra="I go to school every day."
         ),
         models.Tarjeta(
             concepto="Music",
             definicion="Música",
             userId=user.id,
             idCategoria=categoria_ingles.id,
-            ejemplo="I love listening to music."
+            definicionExtra="I love listening to music."
         ),
     ]
 
