@@ -42,6 +42,7 @@ def get_database():
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
+        "https://joseria-c.github.io",
         "https://memotoriapi.onrender.com",
         "http://localhost:5500",
         "http://127.0.0.1:5500",
