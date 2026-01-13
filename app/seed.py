@@ -49,7 +49,7 @@ def seed_data(db: Session):
         nombre="Programación",
         descripcion="Conceptos básicos de programación orientada a objetos",
         userId=user.id,
-        imagen=copy_default_image("gato.png")
+        imagen=copy_default_image("gatopro.jpg")
     )
 
     db.add(categoria_prog)
@@ -136,7 +136,7 @@ def seed_data(db: Session):
         nombre="Inglés Básico",
         descripcion="Vocabulario básico de inglés con ejemplos",
         userId=user.id,
-        imagen=copy_default_image("gato.png")
+        imagen=copy_default_image("ingles.jpg")
     )
 
     db.add(categoria_ingles)
