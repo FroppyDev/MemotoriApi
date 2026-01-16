@@ -171,7 +171,7 @@ def get_card(tarjeta_id: int, db: Session = Depends(get_database)):
 def get_cards_by_deck(categoryId: int, userId: int, db: Session = Depends(get_database)):
     return dao_tarjeta.get_cards_by_deck(db, categoryId, userId)
 
-@app.get("/cards/deck/{categoryId}/{userId}", response_model=list[schemas.Tarjeta])
+@app.get("/cards/deck/test/{categoryId}/{userId}", response_model=list[schemas.Tarjeta])
 def get_cards_by_deck_test(categoryId: int, userId: int, db: Session = Depends(get_database)):
     return dao_tarjeta.get_cards_by_deck(db, categoryId, userId)
 
